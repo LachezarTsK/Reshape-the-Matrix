@@ -1,23 +1,23 @@
 
 public class Solution {
 
-    public int[][] matrixReshape(int[][] matrix, int r, int c) {
+    public int[][] matrixReshape(int[][] matrix, int newRows, int newColumns) {
 
-        int n = matrix.length;
-        int m = matrix[0].length;
-        if (n * m != r * c) {
+        final int currentRows = matrix.length;
+        final int currentColumns = matrix[0].length;
+        if (currentRows * currentColumns != newRows * newColumns) {
             return matrix;
         }
 
-        int[][] reshapedMatrix = new int[r][c];
-        int new_r = 0;
-        int new_c = 0;
+        int[][] reshapedMatrix = new int[newRows][newColumns];
+        int filledElements = 0;
 
-        for (int row = 0; row < n; row++) {
-            for (int column = 0; column < m; column++) {
-                reshapedMatrix[new_r][new_c] = matrix[row][column];
-                new_c = c > 1 ? (++new_c) % c : 0;
-                new_r = new_c == 0 ? ++new_r : new_r;
+        for (int r = 0; r < currentRows; r++) {
+            for (int c = 0; c < currentColumns; c++) {
+                int indexRow = filledElements / newColumns;
+                int indexColumn = filledElements % newColumns;
+                reshapedMatrix[indexRow][indexColumn] = matrix[r][c];
+                filledElements++;
             }
         }
         return reshapedMatrix;
