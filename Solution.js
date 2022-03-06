@@ -1,32 +1,29 @@
 
 /**
- * @param {number[][]} mat
- * @param {number} r
- * @param {number} c
+ * @param {number[][]} matrix
+ * @param {number} newRows
+ * @param {number} newColumns
  * @return {number[][]}
  */
-var matrixReshape = function (matrix, r, c) {
-
-
-    let n = matrix.length;
-    let m = matrix[0].length;
-    if (n * m !== r * c) {
+var matrixReshape = function (matrix, newRows, newColumns) {
+    const currentRows = matrix.length;
+    const currentColumns = matrix[0].length;
+    if (currentRows * currentColumns !== newRows * newColumns) {
         return matrix;
     }
 
-    var reshapedMatrix = new Array(r);
-    for (let i = 0; i < r; i++) {
-        reshapedMatrix[i] = new Array(c);
+    const reshapedMatrix = new Array(newRows);
+    for (let r = 0; r < newRows; r++) {
+        reshapedMatrix[r] = new Array(newColumns).fill(0);
     }
+    let filledElements = 0;
 
-    let new_r = 0;
-    let new_c = 0;
-
-    for (let row = 0; row < n; row++) {
-        for (let column = 0; column < m; column++) {
-            reshapedMatrix[new_r][new_c] = matrix[row][column];
-            new_c = c > 1 ? (++new_c) % c : 0;
-            new_r = new_c === 0 ? ++new_r : new_r;
+    for (let r = 0; r < currentRows; r++) {
+        for (let c = 0; c < currentColumns; c++) {
+            let indexRow = Math.floor(filledElements / newColumns);
+            let indexColumn = filledElements % newColumns;
+            reshapedMatrix[indexRow][indexColumn] = matrix[r][c];
+            filledElements++;
         }
     }
     return reshapedMatrix;
